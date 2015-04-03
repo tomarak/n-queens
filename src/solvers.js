@@ -14,37 +14,34 @@
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n rooks placed such that none of them can attack each other
 
 window.findNRooksSolution = function(n) {
-  /*
+
   var solution;
-  var arrayOfRows = new Board({'n' : n});
-  console.log(arrayOfRows);
+  var board = new Board({n : n});
 
-
-    var findRookPosition = function(column, row){
-      if(column === n && row === n){
-        solution = arrayOfRows;
-        return true;
-      }
-
-      if(!arrayOfRows.hasRowConflictAt(row) && !arrayOfRows.hasColConflictAt(column)){
-        arrayOfRows.togglePiece(row, column);
-        var result = findRookPosition(column, row + 1);
-
-      }
-      if(column < n){
-          column++;
-        }
-      else{
-          row++;
-        }
-
-     // pass arrayOfRows to inner function call
+  var findRookPosition = function(row){
+    if(row === n){
+   //   solution = board.rows();
+      return solution = _.map(board.rows(), function(row){
+        return row.slice();
+      });
     }
+    for(var i = 0; i < n; i++){
+      board.togglePiece(row, i);
+      if(!board.hasAnyRooksConflicts()){
+        var result = findRookPosition(row + 1);
+        if(result){
+          return result;
+        }
+      }
+      board.togglePiece(row, i);
+    }
+     // pass board to inner function call
+  };
 
-  findRookPosition(0, 0);
+  findRookPosition(0);
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   return solution;
-  */
+
 };
 
   // var findRookPosition = function(column, row){
@@ -100,10 +97,33 @@ window.countNRooksSolutions = function(n) {
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
-  var solution = undefined; //fixme
+  var solution;
+  var board = new Board({n: n});
+
+  var findQueenPosition = function(row){
+    if(row === n){
+   //   solution = board.rows();
+      return solution = _.map(board.rows(), function(row){
+        return row.slice();
+      });
+    }
+    for(var i = 0; i < n; i++){
+      board.togglePiece(row, i);
+      if(!board.hasAnyQueensConflicts()){
+        var result = findQueenPosition(row + 1);
+        if(result){
+          return result;
+        }
+      }
+      board.togglePiece(row, i);
+    }
+     // pass board to inner function call
+  };
+
+  findQueenPosition(0);
 
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
-  return solution;
+  return solution || board.rows();
 };
 
 
